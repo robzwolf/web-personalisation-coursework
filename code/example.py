@@ -29,5 +29,5 @@ sns.set_style('dark')
 
 plt.figure(figsize=(8,6))
 plt.rcParams['patch.force_edgecolor'] = True
-ratings_mean_count['rating_counts'].hist(bins=50)
+ratings_mean_count['rating'].hist(bins=50)
 plt.show()
