@@ -29,5 +29,6 @@ sns.set_style('dark')
 
 plt.figure(figsize=(8,6))
 plt.rcParams['patch.force_edgecolor'] = True
-ratings_mean_count['rating'].hist(bins=50)
+# ratings_mean_count['rating'].hist(bins=50)
+sns.jointplot(x='rating', y='rating_counts', data=ratings_mean_count, alpha=0.4)
 plt.show()
