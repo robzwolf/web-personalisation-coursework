@@ -19,7 +19,8 @@ movies_df['movieId'] = movies_df['movieId'].apply(pd.to_numeric)
 print(movies_df.head())
 print(ratings_df.head())
 
-R_df = ratings_df.pivot(index='userId', columns='movieId', values='rating').fillna(0)
+R_df = ratings_df.pivot(index='userId', columns='movieId', values='rating')
+R_df = R_df.fillna(R_df.mean())
 print(R_df.head())
 
 R = R_df.as_matrix()
