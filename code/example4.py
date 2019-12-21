@@ -1,3 +1,4 @@
+# Copy genres from book_tags.csv to main books file
 import pandas as pd
 from time import process_time
 
