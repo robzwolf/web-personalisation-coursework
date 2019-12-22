@@ -13,7 +13,7 @@ print('Starting...')
 pd.set_option('display.max_columns', 999)
 pd.set_option('display.width', 999)
 
-ratings_list = pd.read_csv('../master-dataset/ratings.csv')
+ratings_list = pd.read_csv('../master-dataset/ratings-small.csv')
 books_list = pd.read_csv('../master-dataset/books_metadata.csv')
 
 ratings_df = pd.DataFrame(ratings_list, columns=['user_id', 'book_id', 'rating'], dtype=int)
@@ -60,7 +60,7 @@ def recommend_books(predictions_df, user_id, books_df, original_ratings_df, num_
     return user_full, recommendations
 
 
-user_id = 92
+user_id = 89
 already_rated, predictions = recommend_books(preds_df, user_id, books_df, ratings_df, 10)
 print(already_rated.head(10))
 print(predictions)
