@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Hello World</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<main>
+
+    <div id="form">
+
+        <h1>Enter a user ID to see their recommendations:</h1>
+        <label>
+            User ID:
+            <input type="text" name="user_id" />
+        </label>
+        <button onclick="getRecommendations()">Get Recommendations</button>
+
+    </div>
+
+    <div id="loading" class="hidden">
+        <p>Fetching results, please wait...</p>
+        <img src="/static/loading.svg" />
+    </div>
+
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
