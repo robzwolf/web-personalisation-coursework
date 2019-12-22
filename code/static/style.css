@@ -19,3 +19,12 @@ main {
     border-top: 1px solid #7c91b0;
     padding-top: 1rem;
 }
+
+#results p {
+    font-weight: bold;
+}
+
+.books-predictions {
+    margin: 1rem 15%;
+    text-align: left;
+}
