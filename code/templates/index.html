@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
     <title>Hello World</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
 
 <main>
 
-    <div id="form">
+    <form id="form" onsubmit="getRecommendations();return false;">
 
         <h1>Enter a user ID (between 1 and 2000) to see their recommendations:</h1>
         <label>
             User ID:
             <input type="number" name="user_id" id="user_id" min="1" max="2000" />
         </label>
-        <button onclick="getRecommendations()">Get Recommendations</button>
+        <input type="submit" value="Get Recommendations" />
 
-    </div>
+    </form>
 
     <div id="loading" class="hidden">
         <p>Fetching results, please wait...</p>
