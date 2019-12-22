@@ -27,5 +27,6 @@ def api(user_id):
 
 
 if __name__ == '__main__':
+    print('Starting server... this step can take a few seconds, please be patient.')
     recommend_svd.setup()
     app.run()

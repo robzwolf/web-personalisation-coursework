@@ -2,10 +2,15 @@ const loadingBox = document.querySelector('#loading');
 const resultsBox = document.querySelector('#results');
 
 function getRecommendations() {
+    const userIdElement = document.querySelector('#user_id');
+    if (!userIdElement.checkValidity()) {
+        return;
+    }
+
     loadingBox.classList.remove('hidden');
     resultsBox.classList.add('hidden');
 
-    const userID = document.querySelector('#user_id').value;
+    const userID = userIdElement.value;
 
     fetch(`/api/${userID}`)
         .then(response => response.json())
