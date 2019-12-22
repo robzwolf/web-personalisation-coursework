@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Hello World</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<main>
+
+    <form id="form" onsubmit="getRecommendations();return false;">
+
+        <h1>Enter a user ID (between 1 and 2000) to see their recommendations:</h1>
+        <label>
+            User ID:
+            <input type="number" name="user_id" id="user_id" min="1" max="2000" />
+        </label>
+        <input type="submit" value="Get Recommendations" />
+
+    </form>
+
+    <div id="loading" class="hidden">
+        <p>Fetching results, please wait...</p>
+        <img src="/static/loading.svg" />
+    </div>
+
+    <div id="results" class="hidden">
+        <p>Based on what you've rated previously, we think you'll like the following books:</p>
+        <ul class="books-predictions">
+
+        </ul>
+    </div>
+
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
