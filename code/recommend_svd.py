@@ -1,40 +1,39 @@
-# Follows https://beckernick.github.io/matrix-factorization-recommender/
+# This file borrows heavily from https://beckernick.github.io/matrix-factorization-recommender/
 
 import pandas as pd
 import numpy as np
-from time import process_time
 from scipy.sparse.linalg import svds
-
-start_time = process_time()
-print('Starting...')
 
 # Forcibly display all columns when using PyCharm
 # See https://stackoverflow.com/a/50947606/2176546
 pd.set_option('display.max_columns', 999)
 pd.set_option('display.width', 999)
 
-ratings_list = pd.read_csv('../master-dataset/ratings-small.csv')
-books_list = pd.read_csv('../master-dataset/books_metadata.csv')
+preds_df = None
+books_df = None
+ratings_df = None
 
-ratings_df = pd.DataFrame(ratings_list, columns=['user_id', 'book_id', 'rating'], dtype=int)
-books_df = pd.DataFrame(books_list, columns=['book_id', 'title', 'genres'])
-books_df['book_id'] = books_df['book_id'].apply(pd.to_numeric)
 
-print(ratings_df.head())
-print(books_df.head())
+def setup():
+    global preds_df, books_df, ratings_df
+    ratings_list = pd.read_csv('../master-dataset/ratings-small.csv')
+    books_list = pd.read_csv('../master-dataset/books_metadata.csv')
 
-R_df = ratings_df.pivot(index='user_id', columns='book_id', values='rating').fillna(0)
-# print(R_df.head())
+    ratings_df = pd.DataFrame(ratings_list, columns=['user_id', 'book_id', 'rating'], dtype=int)
+    books_df = pd.DataFrame(books_list, columns=['book_id', 'title', 'genres'])
+    books_df['book_id'] = books_df['book_id'].apply(pd.to_numeric)
 
-R = R_df.values
-user_ratings_mean = np.mean(R, axis=1)
-R_demeaned = R - user_ratings_mean.reshape(-1, 1)
+    R_df = ratings_df.pivot(index='user_id', columns='book_id', values='rating').fillna(0)
 
-U, sigma, Vt = svds(R_demeaned, k=50)
-sigma = np.diag(sigma)
+    R = R_df.values
+    user_ratings_mean = np.mean(R, axis=1)
+    R_demeaned = R - user_ratings_mean.reshape(-1, 1)
 
-all_user_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + user_ratings_mean.reshape(-1, 1)
-preds_df = pd.DataFrame(all_user_predicted_ratings, columns=R_df.columns)
+    U, sigma, Vt = svds(R_demeaned, k=50)
+    sigma = np.diag(sigma)
+
+    all_user_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + user_ratings_mean.reshape(-1, 1)
+    preds_df = pd.DataFrame(all_user_predicted_ratings, columns=R_df.columns)
 
 
 def recommend_books(predictions_df, user_id, books_df, original_ratings_df, num_recommendations=5):
@@ -60,9 +59,17 @@ def recommend_books(predictions_df, user_id, books_df, original_ratings_df, num_
     return user_full, recommendations
 
 
-user_id = 89
-already_rated, predictions = recommend_books(preds_df, user_id, books_df, ratings_df, 10)
-print(already_rated.head(10))
-print(predictions)
+def get_recommendations_for_user(user_id):
+    global preds_df, books_df, ratings_df
 
-print(f'Process took {str(process_time() - start_time)} seconds.')
+    if preds_df is None:
+        setup()
+
+    already_rated, predictions = recommend_books(preds_df, user_id, books_df, ratings_df, 10)
+    return already_rated, predictions
+
+
+# user_id = 89
+# already_rated, predictions = recommend_books(preds_df, user_id, books_df, ratings_df, 10)
+# print(already_rated.head(10))
+# print(predictions)
